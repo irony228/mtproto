@@ -1,7 +1,7 @@
 #!/bin/bash
 
 FAKE_DOMAIN="update.microsoft.com"
-PORT="444"
+PORT="443"
 IP=$(curl -s ifconfig.me)
 
 log() {
@@ -27,7 +27,7 @@ EOF
 fi
 
 log "3. Запускаем прокси..."
-docker compose up -d
+PORT=$PORT docker compose up -d
 
 log "================================================="
 log "🚀 УСПЕХ! ПРОКСИ РАБОТАЕТ НА ДВИЖКЕ MTG V2"

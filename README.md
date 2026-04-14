@@ -21,7 +21,7 @@ chmod +x stop.sh
 
 ## Конфигурация
 
-* **Порт** меняется в [`start.sh`](https://github.com/irony228/mtproto/blob/addea81b1591150a3b8187b5c947b4f26487ad83/start.sh#L4) и [`docker-compose.yml`](https://github.com/irony228/mtproto/blob/addea81b1591150a3b8187b5c947b4f26487ad83/docker-compose.yml#L6-L7).
+* **Порт** меняется в [`start.sh`](https://github.com/irony228/mtproto/blob/addea81b1591150a3b8187b5c947b4f26487ad83/start.sh#L4).
 * **Домен** для маскировки (FakeTLS) меняется в переменной `FAKE_DOMAIN` внутри [`start.sh`](https://github.com/irony228/mtproto/blob/addea81b1591150a3b8187b5c947b4f26487ad83/start.sh#L3).
 
 > *Если вы решили поменять домен, обязательно удалите файл `config.toml` перед запуском, чтобы скрипт сгенерировал новый корректный ключ.*
