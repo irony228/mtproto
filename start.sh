@@ -1,8 +1,7 @@
 #!/bin/bash
 
-# Домен-маскировка (update.microsoft.com отлично подходит, его не блочат)
 FAKE_DOMAIN="update.microsoft.com"
-PORT="443"
+PORT="444"
 IP=$(curl -s ifconfig.me)
 
 log() {
@@ -11,15 +10,21 @@ log() {
     echo -e "${GREEN}$1${NC}"
 }
 
-log "1. Скачиваем движок mtg v2 и генерируем настоящий FakeTLS секрет..."
-# mtg сам генерирует идеальный HEX-секрет с префиксом ee и зашитым доменом
-SECRET=$(docker run --rm nineseconds/mtg:2 generate-secret --hex $FAKE_DOMAIN)
-
-log "2. Создаем файл настроек config.toml..."
-cat > config.toml << EOF
+# Проверяем, существует ли уже файл config.toml
+if [ -f "config.toml" ]; then
+    log "1. Нашел существующий config.toml! Использую старый ключ..."
+    # Вытаскиваем старый секрет из файла, чтобы корректно собрать ссылку в конце
+    SECRET=$(grep 'secret =' config.toml | cut -d '"' -f 2)
+else
+    log "1. Файл настроек не найден. Скачиваем движок mtg v2 и генерируем секрет..."
+    SECRET=$(docker run --rm nineseconds/mtg:2 generate-secret --hex $FAKE_DOMAIN)
+    
+    log "2. Создаем файл настроек config.toml..."
+    cat > config.toml << EOF
 secret = "${SECRET}"
 bind-to = "0.0.0.0:${PORT}"
 EOF
+fi
 
 log "3. Запускаем прокси..."
 docker compose up -d

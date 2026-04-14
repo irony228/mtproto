@@ -4,7 +4,7 @@ services:
     container_name: tg_proxy_mtg
     restart: always
     ports:
-      - "443:443"
+      - "444:444"
     volumes:
       - ./config.toml:/config.toml
     command: run /config.toml
