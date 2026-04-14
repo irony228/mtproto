@@ -1,0 +1,14 @@
+services:
+  mtg:
+    image: nineseconds/mtg:2
+    container_name: tg_proxy_mtg
+    restart: always
+    ports:
+      - "443:443"
+    volumes:
+      - ./config.toml:/config.toml
+    command: run /config.toml
+    deploy:
+      resources:
+        limits:
+          memory: 256M
